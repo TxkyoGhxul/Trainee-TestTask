@@ -12,10 +12,11 @@ public class UserService : IUserService
     public UserService(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
     /// <inheritdoc />
-    public async Task<User> GetUser() => 
-        _dbContext.Users
-            .Include(user => user.Orders)
-            .MaxBy(user => user.Orders.Count);
+    public async Task<User> GetUser()
+    {
+        var users = await _dbContext.Users.Include(user => user.Orders).ToListAsync();
+        return users.MaxBy(user => user.Orders.Count);
+    }
 
     /// <inheritdoc />
     public async Task<List<User>> GetUsers() => 
