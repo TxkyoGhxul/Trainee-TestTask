@@ -11,8 +11,11 @@ public class OrderService : IOrderService
     public OrderService(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
     /// <inheritdoc />
-    public async Task<Order> GetOrder() => 
-        _dbContext.Orders.MaxBy(order => order.Price);
+    public async Task<Order> GetOrder()
+    {
+        var orders = await _dbContext.Orders.ToListAsync();
+        return orders.MaxBy(order => order.Price);
+    }
 
     /// <inheritdoc />
     public async Task<List<Order>> GetOrders() => 
