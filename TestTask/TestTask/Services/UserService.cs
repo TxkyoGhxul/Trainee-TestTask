@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TestTask.Data;
+using TestTask.Enums;
 using TestTask.Models;
 using TestTask.Services.Interfaces;
 
@@ -19,6 +20,6 @@ public class UserService : IUserService
     /// <inheritdoc />
     public async Task<List<User>> GetUsers() => 
         await _dbContext.Users
-            .Where(user => user.Status == Enums.UserStatus.Inactive)
+            .Where(user => user.Status == UserStatus.Inactive)
             .ToListAsync();
 }
